@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevZero Team Week - Reliability & Project Alignment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* DevZero brand colors */
+            --primary: #5B3DF5;
+            --primary-light: #7B5FF7;
+            --primary-dark: #4B2DE5;
+            --accent: #00E5CC;
+            --bg-dark: #0B0F1A;
+            --bg-card: #141823;
+            --bg-card-hover: #1A1F2E;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8B92A9;
+            --border: #1F2937;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(91, 61, 245, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(0, 229, 204, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: rgba(11, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 1rem 0;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-button.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Day sections */
+        .day-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .day-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(91, 61, 245, 0.3);
+        }
+
+        .day-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .day-goal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .day-goal strong {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 120px;
+        }
+
+        /* Session cards */
+        .session {
+            position: relative;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .time-slot {
+            position: absolute;
+            left: -120px;
+            top: 0;
+            width: 100px;
+            text-align: right;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
+            padding-top: 1.5rem;
+        }
+
+        .session-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .session-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--primary);
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(91, 61, 245, 0.2);
+        }
+
+        .session-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .session-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .session-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .label {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .activity-label {
+            background: rgba(91, 61, 245, 0.2);
+            color: var(--primary-light);
+        }
+
+        .outcome-label {
+            background: rgba(0, 229, 204, 0.2);
+            color: var(--accent);
+        }
+
+        .prompt-label {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .session-content {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        /* Lists */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Special badges */
+        .rose-badge { color: #F472B6; }
+        .bud-badge { color: #10B981; }
+        .thorn-badge { color: #F59E0B; }
+
+        .rose-badge::before,
+        .bud-badge::before,
+        .thorn-badge::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .rose-badge::before { background: #F472B6; }
+        .bud-badge::before { background: #10B981; }
+        .thorn-badge::before { background: #F59E0B; }
+
+        /* Break card */
+        .break-card {
+            background: linear-gradient(135deg, rgba(91, 61, 245, 0.1), rgba(0, 229, 204, 0.1));
+            border: 1px solid rgba(91, 61, 245, 0.3);
+            text-align: center;
+        }
+
+        .break-card .session-title {
+            color: var(--primary);
+        }
+
+        /* Coming soon sections */
+        .coming-soon {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .coming-soon h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-inner {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .timeline {
+                padding-left: 0;
+            }
+
+            .time-slot {
+                position: static;
+                margin-bottom: 0.5rem;
+                text-align: left;
+                width: auto;
+                padding-top: 0;
+            }
+
+            .day-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .session-card {
+                padding: 1rem;
+            }
+        }
+
+        /* Smooth scroll padding */
+        .day-section {
+            scroll-margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-inner">
+            <div class="nav-title">DevZero Team Week</div>
+            <div class="nav-buttons">
+                <a href="#monday" class="nav-button">Monday</a>
+                <a href="#tuesday" class="nav-button">Tuesday</a>
+                <a href="#wednesday" class="nav-button">Wednesday</a>
+                <a href="#thursday" class="nav-button">Thursday</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>Team Week: Reliability & Project Alignment</h1>
+        <p class="subtitle">
+            Building confidence in what we ship through shared understanding, 
+            pragmatic testing, and clear priorities.
+        </p>
+    </header>
+
+    <!-- Monday -->
+    <section id="monday" class="day-section">
+        <div class="day-header">
+            <div class="day-badge">Monday, June 23</div>
+            <h2 class="day-title">Reliability & Project Alignment</h2>
+        </div>
+        
+        <div class="day-goal">
+            <p><strong>Goal:</strong> Establish a shared understanding of where the project stands today, 
+            the known issues, and what "done" looks like for our MVP.</p>
+        </div>
+
+        <div class="timeline">
+            <div class="session">
+                <div class="time-slot">9:00–10:30</div>
+                <div class="session-card">
+                    <h3 class="session-title">Rose, Bud, Thorn Exercise</h3>
+                    <div class="label activity-label">Activity</div>
+                    <p class="session-content">
+                        <strong>What it is:</strong> A structured team reflection to frame our current state and guide where we focus.
+                    </p>
+                    <ul>
+                        <li><span class="rose-badge">Roses</span> — What we should be celebrating and recognizing as going well.</li>
+                        <li><span class="bud-badge">Buds</span> — Areas we've started improving that are showing promise or early dividends.</li>
+                        <li><span class="thorn-badge">Thorns</span> — Pain points, blockers, or sources of friction in how we work or ship.</li>
+                    </ul>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        A shared landscape of wins, momentum, and challenges — setting the tone for where we invest our attention and effort.
+                    </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">11:00–12:00</div>
+                <div class="session-card">
+                    <h3 class="session-title">Product Architecture Diagram</h3>
+                    <div class="label activity-label">Activity</div>
+                    <p class="session-content">
+                        Walk through the current system architecture together.
+                    </p>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        Build shared understanding of how the system fits together and where known reliability risks lie.
+                    </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">12:00–1:00</div>
+                <div class="session-card break-card">
+                    <h3 class="session-title">Lunch</h3>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">1:00–3:00</div>
+                <div class="session-card">
+                    <h3 class="session-title">Domain Expert Deep Dives</h3>
+                    <div class="label activity-label">Activity</div>
+                    <p class="session-content">
+                        Domain experts present their section of the architecture, how it works, and known reliability concerns.
+                    </p>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        Cross-functional clarity on subsystems and problem areas.
+                    </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">3:00–3:30</div>
+                <div class="session-card break-card">
+                    <h3 class="session-title">Break</h3>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">3:30–5:00</div>
+                <div class="session-card">
+                    <h3 class="session-title">Discussion – What's Preventing Progress?</h3>
+                    <div class="label prompt-label">Prompts</div>
+                    <ul>
+                        <li>Why aren't we just fixing the problems?</li>
+                        <li>What's the tradeoff between speed and reliability? How do we define a "minimum viable product" (MVP) that allows us to stabilize without halting new feature work?</li>
+                    </ul>
+                    
+                    <div class="label prompt-label">Context</div>
+                    <p class="session-content">
+                        We're building, we're shipping — but there's a looming sense of unreliability. Teams are shipping features like departments, 
+                        savings and cost calculations, workload/node recommendations, and node lifecycle actions — but even at the finish line, 
+                        we often don't have confidence it'll work reliably on day 1. Why is that?
+                    </p>
+                    
+                    <div class="label activity-label">Product Questions</div>
+                    <ul>
+                        <li>What is expected to be delivered?</li>
+                        <li>When does it have to work vs. when is failure acceptable?</li>
+                        <li>How do we define an MVP we can rally behind — one that sets clear expectations for what needs to be reliable, and when?</li>
+                    </ul>
+                    
+                    <div class="label activity-label">Engineering Questions</div>
+                    <ul>
+                        <li>Why is it hard to test the things we build?</li>
+                        <li>What's making testing expensive or impractical?</li>
+                        <li>How does our current architecture — particularly dakr, which handles critical math and complex queries — impact our ability to write reliable, verifiable systems?</li>
+                        <li>What are the limitations of our current DB setup (e.g. lack of guaranteed correctness), and how do we mitigate or work around that?</li>
+                    </ul>
+                    
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        A shared understanding of the forces that are slowing us down — and alignment on what we can change (and how) to restore 
+                        confidence in what we build. This should inform how we define "done," how we prioritize, and what trade-offs we're willing 
+                        to make going forward.
+                    </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">5:00–5:30</div>
+                <div class="session-card">
+                    <h3 class="session-title">Guest Talk – Testing with Ignas</h3>
+                    <div class="label activity-label">Topics Covered</div>
+                    <ul>
+                        <li>Testing layered applications</li>
+                        <li>Feedback loops and insights</li>
+                        <li>Practical testing practices (IMHO)</li>
+                    </ul>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        Inspiration and guidance on effective, pragmatic testing practices we can adopt.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tuesday -->
+    <section id="tuesday" class="day-section">
+        <div class="day-header">
+            <div class="day-badge">Tuesday, June 24</div>
+            <h2 class="day-title">Hackathon Day 1</h2>
+        </div>
+        
+        <div class="day-goal">
+            <p><strong>Goal:</strong> Rapidly prototype and test solutions to key problems identified Monday, especially thorny reliability issues.</p>
+        </div>
+
+        <div class="timeline">
+            <div class="session">
+                <div class="time-slot">9:00–10:00</div>
+                <div class="session-card">
+                    <h3 class="session-title">Sprint Planning</h3>
+                    <div class="label activity-label">Activities</div>
+                    <ul>
+                        <li>Form small teams (2–3 people)</li>
+                        <li>Define what's achievable in 1.5 days</li>
+                        <li>Pick focused project areas tied to MVP or reliability thorns</li>
+                    </ul>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        Clear sprint goals, team ownership.
+                    </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">10:00–4:30</div>
+                <div class="session-card">
+                    <h3 class="session-title">Hack Time</h3>
+                    <div class="label activity-label">Activity</div>
+                    <p class="session-content">
+                        Heads-down implementation and prototyping.
+                    </p>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        Working proof-of-concept or progress toward solution.
+                    </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">4:30–5:00</div>
+                <div class="session-card">
+                    <h3 class="session-title">Stand-Up</h3>
+                    <div class="label activity-label">Activity</div>
+                    <p class="session-content">
+                        Share progress, blockers, and next steps.
+                    </p>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        Transparency and opportunity for course correction or support.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wednesday -->
+    <section id="wednesday" class="day-section">
+        <div class="day-header">
+            <div class="day-badge">Wednesday, June 25</div>
+            <h2 class="day-title">Hackathon Day 2</h2>
+        </div>
+        
+        <div class="day-goal">
+            <p><strong>Goal:</strong> Complete prototypes and prepare demonstrations of solutions.</p>
+        </div>
+
+        <div class="timeline">
+            <div class="session">
+                <div class="time-slot">Morning</div>
+                <div class="session-card">
+                    <h3 class="session-title">Hack + Final Touches</h3>
+                    <p class="session-content" style="color: var(--text-secondary);">
+                        <em>Times approximate (~9–11:30)</em>
+                    </p>
+                    <div class="label activity-label">Activity</div>
+                    <p class="session-content">
+                        Wrap up builds and prepare to present.
+                    </p>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        Functional demos and clarity on what's working.
+                    </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">11:30–12:30</div>
+                <div class="session-card">
+                    <h3 class="session-title">Show & Tell</h3>
+                    <div class="label activity-label">Activity</div>
+                    <p class="session-content">
+                        Present projects, learnings, and what's ready to ship vs. iterate.
+                    </p>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        Shared visibility into new ideas and solutions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">12:30–1:30</div>
+                <div class="session-card break-card">
+                    <h3 class="session-title">Lunch</h3>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">1:30–1:45</div>
+                <div class="session-card">
+                    <h3 class="session-title">Breakout Planning</h3>
+                    <div class="label activity-label">Activity</div>
+                    <p class="session-content">
+                        Decide topics for deeper breakout discussions.
+                    </p>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        Agreed focus areas for further exploration.
+                    </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">1:45–5:00</div>
+                <div class="session-card">
+                    <h3 class="session-title">Breakout Sessions</h3>
+                    <div class="label activity-label">Topics</div>
+                    <ul>
+                        <li>Topic-focused, cross-functional discussions</li>
+                        <li>Could include reliability architecture, observability, tech debt, etc.</li>
+                    </ul>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        Next steps and potential workstreams post-team week.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Thursday -->
+    <section id="thursday" class="day-section">
+        <div class="day-header">
+            <div class="day-badge">Thursday, June 26</div>
+            <h2 class="day-title">Wrap-Up & Team Time</h2>
+        </div>
+
+        <div class="timeline">
+            <div class="session">
+                <div class="time-slot">9:00–10:00</div>
+                <div class="session-card">
+                    <h3 class="session-title">Recap of Breakout Sessions</h3>
+                    <div class="label activity-label">Activity</div>
+                    <p class="session-content">
+                        Summarize takeaways, assign owners, and log action items.
+                    </p>
+                    <div class="label outcome-label">Outcome</div>
+                    <p class="session-content">
+                        Clear path forward with accountability.
+                    </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">Rest of Day</div>
+                <div class="session-card">
+                    <h3 class="session-title">Team Event</h3>
+                    <div class="label activity-label">Schedule</div>
+                    <ul>
+                        <li><strong>10:15–12:15:</strong> Explore the Pacific Science Center</li>
+                        <li><strong>12:15–2:30:</strong> Walk to Pike Place Market for lunch and a casual stroll</li>
+                        <li><strong>2:30–4:30:</strong> Escape rooms at Fox in a Box</li>
+                    </ul>
+                    <div class="label prompt-label">Fox in a Box</div>
+                    <p class="session-content">
+                        📍 2121 1st Ave, Seattle, WA 98121, USA
+                    </p>
+                    <ul>
+                        <li><strong>5:30–8:00:</strong> Wrap up with a team dinner at Cinque Terre Ristorante</li>
+                    </ul>
+                    <div class="label prompt-label">Cinque Terre Ristorante</div>
+                    <p class="session-content">
+                        📍 2001 Westlake Ave, Seattle, WA 98121
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Update active navigation button based on scroll position
+        const navButtons = document.querySelectorAll('.nav-button');
+        const sections = document.querySelectorAll('.day-section');
+
+        function updateActiveNav() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.getAttribute('href') === '#' + current) {
+                    button.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+        updateActiveNav();
+    </script>
+</body>
+</html>
