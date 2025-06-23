@@ -431,12 +431,19 @@
 
         <div class="timeline">
             <div class="session">
-                <div class="time-slot">9:00–10:30</div>
+                <div class="time-slot">9:00–9:30</div>
+                <div class="session-card">
+                    <h3 class="session-title">Coffee and WiFi Onboarding, etc.</h3>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">9:30–10:30</div>
                 <div class="session-card">
                     <h3 class="session-title">Rose, Bud, Thorn Exercise</h3>
-                    <div class="label activity-label">Activity</div>
+                    <div class="label activity-label">What it is</div>
                     <p class="session-content">
-                        <strong>What it is:</strong> A structured team reflection to frame our current state and guide where we focus.
+                        A structured team reflection to frame our current state and guide where we focus.
                     </p>
                     <ul>
                         <li><span class="rose-badge">Roses</span> — What we should be celebrating and recognizing as going well.</li>
@@ -451,16 +458,29 @@
             </div>
 
             <div class="session">
-                <div class="time-slot">11:00–12:00</div>
+                <div class="time-slot">10:30–12:00</div>
                 <div class="session-card">
-                    <h3 class="session-title">Product Architecture Diagram</h3>
-                    <div class="label activity-label">Activity</div>
+                    <h3 class="session-title">Discussion – What's Preventing Progress?</h3>
+                    <div class="label prompt-label">Prompt</div>
                     <p class="session-content">
-                        Walk through the current system architecture together.
+                        We're building, we're shipping — but there's a looming sense of unreliability. Teams are shipping features like departments, 
+                        savings and cost calculations, workload/node recommendations, and node lifecycle actions — but even at the finish line, 
+                        we often don't have confidence it'll work reliably on day 1. Why is that?
                     </p>
+                    
+                    <div class="label activity-label">Engineering</div>
+                    <ul>
+                        <li>Why is it hard to test the things we build?</li>
+                        <li>What's making testing expensive or impractical?</li>
+                        <li>How does our current architecture — particularly dakr, which handles critical math and complex queries — impact our ability to write reliable, verifiable systems?</li>
+                        <li>What are the limitations of our current DB setup (e.g. lack of guaranteed correctness), and how do we mitigate or work around that?</li>
+                        <li>Something else?</li>
+                    </ul>
+                    
                     <div class="label outcome-label">Outcome</div>
                     <p class="session-content">
-                        Build shared understanding of how the system fits together and where known reliability risks lie.
+                        A shared, grounded understanding of the forces that are slowing us down — and alignment on what we can change (and how) to restore 
+                        confidence in what we build. This should inform how we define "done," how we prioritize, and what trade-offs we're willing to make going forward.
                     </p>
                 </div>
             </div>
@@ -473,72 +493,9 @@
             </div>
 
             <div class="session">
-                <div class="time-slot">1:00–3:00</div>
+                <div class="time-slot">1:00–1:30</div>
                 <div class="session-card">
-                    <h3 class="session-title">Domain Expert Deep Dives</h3>
-                    <div class="label activity-label">Activity</div>
-                    <p class="session-content">
-                        Domain experts present their section of the architecture, how it works, and known reliability concerns.
-                    </p>
-                    <div class="label outcome-label">Outcome</div>
-                    <p class="session-content">
-                        Cross-functional clarity on subsystems and problem areas.
-                    </p>
-                </div>
-            </div>
-
-            <div class="session">
-                <div class="time-slot">3:00–3:30</div>
-                <div class="session-card break-card">
-                    <h3 class="session-title">Break</h3>
-                </div>
-            </div>
-
-            <div class="session">
-                <div class="time-slot">3:30–5:00</div>
-                <div class="session-card">
-                    <h3 class="session-title">Discussion – What's Preventing Progress?</h3>
-                    <div class="label prompt-label">Prompts</div>
-                    <ul>
-                        <li>Why aren't we just fixing the problems?</li>
-                        <li>What's the tradeoff between speed and reliability? How do we define a "minimum viable product" (MVP) that allows us to stabilize without halting new feature work?</li>
-                    </ul>
-                    
-                    <div class="label prompt-label">Context</div>
-                    <p class="session-content">
-                        We're building, we're shipping — but there's a looming sense of unreliability. Teams are shipping features like departments, 
-                        savings and cost calculations, workload/node recommendations, and node lifecycle actions — but even at the finish line, 
-                        we often don't have confidence it'll work reliably on day 1. Why is that?
-                    </p>
-                    
-                    <div class="label activity-label">Product Questions</div>
-                    <ul>
-                        <li>What is expected to be delivered?</li>
-                        <li>When does it have to work vs. when is failure acceptable?</li>
-                        <li>How do we define an MVP we can rally behind — one that sets clear expectations for what needs to be reliable, and when?</li>
-                    </ul>
-                    
-                    <div class="label activity-label">Engineering Questions</div>
-                    <ul>
-                        <li>Why is it hard to test the things we build?</li>
-                        <li>What's making testing expensive or impractical?</li>
-                        <li>How does our current architecture — particularly dakr, which handles critical math and complex queries — impact our ability to write reliable, verifiable systems?</li>
-                        <li>What are the limitations of our current DB setup (e.g. lack of guaranteed correctness), and how do we mitigate or work around that?</li>
-                    </ul>
-                    
-                    <div class="label outcome-label">Outcome</div>
-                    <p class="session-content">
-                        A shared understanding of the forces that are slowing us down — and alignment on what we can change (and how) to restore 
-                        confidence in what we build. This should inform how we define "done," how we prioritize, and what trade-offs we're willing 
-                        to make going forward.
-                    </p>
-                </div>
-            </div>
-
-            <div class="session">
-                <div class="time-slot">5:00–5:30</div>
-                <div class="session-card">
-                    <h3 class="session-title">Eng Talk – Testing with Ignas</h3>
+                    <h3 class="session-title">Testing with Ignas</h3>
                     <div class="label activity-label">Topics Covered</div>
                     <ul>
                         <li>Testing layered applications</li>
@@ -549,6 +506,24 @@
                     <p class="session-content">
                         Inspiration and guidance on effective, pragmatic testing practices we can adopt.
                     </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">1:30–2:30</div>
+                <div class="session-card">
+                    <h3 class="session-title">MVP Discussion</h3>
+                    <div class="label activity-label">Activity</div>
+                    <p class="session-content">
+                        Discuss MVP Product definition as well as engineering work that needs to get done to give clarity to the entire team on exactly what we need to get done as quickly as possible.
+                    </p>
+                </div>
+            </div>
+
+            <div class="session">
+                <div class="time-slot">2:30–??</div>
+                <div class="session-card">
+                    <h3 class="session-title">Open Working Session</h3>
                 </div>
             </div>
         </div>
@@ -562,14 +537,14 @@
         </div>
         
         <div class="day-goal">
-            <p><strong>Goal:</strong> Rapidly prototype and test solutions to key problems identified Monday, especially thorny reliability issues.</p>
+            <p><strong>Goal:</strong> What projects can we do together to help us move forward as fast as possible.</p>
         </div>
 
         <div class="timeline">
             <div class="session">
                 <div class="time-slot">9:00–10:00</div>
                 <div class="session-card">
-                    <h3 class="session-title">Sprint Planning</h3>
+                    <h3 class="session-title">Hackathon Planning</h3>
                     <div class="label activity-label">Activities</div>
                     <ul>
                         <li>Form small teams (2–3 people)</li>
@@ -621,10 +596,6 @@
             <div class="day-badge">Wednesday, June 25</div>
             <h2 class="day-title">Hackathon Day 2</h2>
         </div>
-        
-        <div class="day-goal">
-            <p><strong>Goal:</strong> Complete prototypes and prepare demonstrations of solutions.</p>
-        </div>
 
         <div class="timeline">
             <div class="session">
@@ -632,7 +603,7 @@
                 <div class="session-card">
                     <h3 class="session-title">Hack + Final Touches</h3>
                     <p class="session-content" style="color: var(--text-secondary);">
-                        <em>Times approximate (~9–11:30)</em>
+                        <em>?–11:30</em>
                     </p>
                     <div class="label activity-label">Activity</div>
                     <p class="session-content">
